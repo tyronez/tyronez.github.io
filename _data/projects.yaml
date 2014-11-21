@@ -1,0 +1,16 @@
+- name: MonSQL
+  description: A mysql wrapper for easy interaction with MySQL using a mongodb-like interface. It's motivated by the fact that mongodb is so easy to use, even for a complete novince! This library is suitable for people don't know much about SQL syntax, but they can still manipulate mysql database through this very simple mongodb-style interface -- query, insert, update, all very easy to understand.
+  project_url: https://github.com/firstprayer/monsql
+  techniques: [Python]
+
+- name: Simly
+  description: This is a real-time simulation and monitor online tool for recommendation team staff, product manager and content editors to monitor and test the result of recommendation algorithm which are used in Hulu
+  techniques: [jQuery, AngularJS, Django, MongoDB]
+
+- name: News Website Extractor
+  description: This is a tool used to extract news title, content, time and source from heterogeneous Chinese news websites. I developed it with Java in my sophomore year. Interested people could visit <a href="https://github.com/firstprayer/chinese-news-html-extractor">here</a>
+  techniques: [Java]
+
+- name: Be-Casual Controller
+  description: In my sophomore year, when I saw Kinect, I felt AWESOME!! So I developed this tool, which allow user interact with computers with hands' motions. 
+  techniques: [OpenCV, C++]

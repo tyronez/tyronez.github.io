@@ -1,0 +1,36 @@
+
+
+# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
+
+paginate: 10 # pagination based on number of posts
+paginate_path: "page:num"
+exclude: ["README.md"] # files to exclude
+highlighter: "pygments"
+markdown: kramdown
+comments: true
+
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: Firstprayer - Seriously Blogging
+
+description: 一个关于计算机科学，编程，人生感悟的博客——关乎如何成为更好的人，如何把世界变得更好。
+author:
+  name: firstprayer
+  email: firstprayer@gmail.com 
+  github: firstprayer
+  # twitter: 
+  # pinterest: 
+  linkedin: Zhang Taiyuan
+  linkedin_id: 138773057
+  bio: A blog about computer science, programming, life inspiration; about how to be a better person and make a better world. <br/> 一个关于计算机科学，编程，人生感悟的博客——关乎如何成为更好的人，如何把世界变得更好。
+  # email_md5: 
+
+title: Computer science. Entrepreneur. Life. 
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
+
+BASE_PATH:

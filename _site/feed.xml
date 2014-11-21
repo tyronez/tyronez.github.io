@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Computer science. Entrepreneur. Life.</title>
+		<description>一个关于计算机科学，编程，人生感悟的博客——关乎如何成为更好的人，如何把世界变得更好。</description>
+		<link>/</link>
+		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>CMU神课全解析——15619 Cloud Computing</title>
+				<description>&lt;p&gt;早上起来，第一件事就是打开Cloud Computing的课程网站，看看我们小组搭的Web Service Cluster在昨天晚上长达四个小时的Performance Live Test得到的跑分——结果有点差强人意，不过和之前预估的情况基本吻合。这次Live Test的结束也标志着这个学期这门有时超级坑爹、有时超级有意思的课终于走到了尾声。&lt;/p&gt;
+
+&lt;p&gt;Cloud Computing(15319/15619)，是CMU SCS（School of Computer Science）开的一门面向全校本科生和研究生的课程，主要内容顾名思义：云计算。之所以我称之为神课，一方面是由于课程形式：一切教学都在网上进行。教学视频放到网站，供CMU跨好几大洲的不同校区的学生观看；定期进行Online Quiz；Weekly Project自己写代码跑实验，结果提交到Online Judge System；Semester Project则是三人一组搭建Web Service，提交地址到指定的测试网站，由测试系统自动测试性能和正确性；另一方面是，这门课帮你报销，带你玩转AWS（Amazon Web Service），土豪不差钱的节奏（其实还是有限制的，所以每次project都会告诉你不能用超budget，否则扣分，严重的劝退。我自己因为超budget被请喝茶过一次，据说还有人一次超了300+刀直接被劝退了）；至于最后一个原因，就是：坑很多，水很深。&lt;/p&gt;
+
+&lt;p&gt;闲话少说直接开始介绍课程内容。正如前面所说，主要分为三个部分：Online Quiz，Weekly Project，Semester Project。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Online Quiz&lt;/strong&gt;
+这部分每次主要是给一些阅读材料，介绍云计算中的某些Topic，然后进行开卷的在线答题，题目主要是前面阅读材料涉及到的概念、公式、Case Study之类，限时2到3小时不等。网站自身提供搜索功能，所以根据题目找对应的内容会相对容易一点——尽管如此我还是没拿满过，那感觉就跟在做GRE语文＋数学的混合进阶版一样。这部分能让学生广泛接触云计算的方方面面，比如发展历史、Data Center的搭建，比如Virtualization, Cloud Storage如何Scale Up，再比如分布式计算（MapReduce），把材料都完整看下来的话虽然每个领域都不会深入，但是起码会对整个方向有个大体的认识。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Weekly Project&lt;/strong&gt;
+这门课基本每周会出一个小Project，形式大概都是自己部署AWS的资源跑实验，手动配置或者写代码自动跑，然后把实验结果提交到网上。至于具体的内容就千奇百怪无奇不有了，我举几个栗子：有一个Project Group，利用AWS的ELB（Elastic Load Balancer）和ASG（Auto Scaling Group）进行负载均衡和根据当前访问压力自动Scale up／down，要命的是做实验尝试不同配置，而每次实验要跑40分钟（后来还有一个类似的Project，一次跑100分钟），还要小心翼翼控制budget（后来我告诉自己，其实助教设定这样的时间是用心良苦啊，40分钟的实验，刚好是一集美剧的时间；100分钟的实验，恰好是一部电影的时间。于是深谙助教的用意的我打开了搜狐视频……）；另一个例子是云存储的对比，文件系统/MySQL/Hbase，也是跑给定的benchmark然后比较性能，这里面涉及到2小时教你精通Bash Script，手把手教你配置MySQL Cluster之类的，不是很有意思，但也能在做实验的过程中学到不少东西；比较有趣的是用MapReduce写程序构建statistic n-gram model，支持搜索的自动补全，不过这个Project还没完全放出，在此略过。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Semester Project&lt;/strong&gt;
+这个Project可以说是这门课的精髓，内容是搭建一个Twitter Analysis的Web Service。具体而言，在给定的数据集上（1TB的大小），支持下列的查询&lt;/p&gt;
+
+&lt;p&gt;Q1: 用作Heartbeat，其实就只是算一个大整数除法&lt;br /&gt;
+Q2: 给定用户ID和时间戳，返回这个用户在这个时间戳发的所有推文&lt;br /&gt;
+Q3: 给定用户ID，返回所有转发过这个用户推文的所有用户（包括自己，去重，并且把互相转发——也就是这个被转发的用户也转发过这个转发者的推文——的情况标记出来）的ID&lt;br /&gt;
+Q4: 给定日期和地点和一个范围（m到n），返回这个日期和地点的hashtag列表，按热门程序也就是推文数排序，取第m个到第n个。&lt;br /&gt;
+Q5: 返回每个用户的意见指数（我随便起的名字大家意会即可）。每个用户的意见指数计算如下：每发一条推文，＋1；每当有推文被转发一次，＋3；每有一个用户转发过其推文，＋10（也就是A转发B的推文两次，A也只是一个用户，＋10）&lt;br /&gt;
+Q6: 给定一个用户ID的范围（m到n），返回所有ID在这个范围内的用户发过的照片总数&lt;/p&gt;
+
+&lt;p&gt;这个Project的实现涉及到方方面面，但主要可以分为下面三块：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;数据库设计。合理的数据库设计才能保证查询效率。因为只有读操作而没有写操作，所以这里面可以做很多trick，包括存一整个处理好的字符串、设计一个exactly match的hbase row key之类的。还有就是，cluster还是单机数据库？我们选的是纯单机，因为cluster对于纯读的场景来说效率反而差（无论是mysql还是hbase都是如此）。    &lt;/li&gt;
+  &lt;li&gt;ETL（Extract-Transform-Load)。好吧说白了就是导数据，说ETL那是在伪装高端。这部分主要是通过MapReduce导出需要的数据，有一些不大不小的坑，都是一些细节，一不小心出来的数据就是错误的。给的twitter数据集包含重复的推文，因为这点导致本来可以一次MapReduce跑完的Job需要拆分成两个不同的Job。我做完这个部分之后才真正体验到MapReduce是个好东西，一个小时处理完所有数据完全无压力——如果是用Java写的话。Well……我是Python脑残粉＋Java黑，但是不可否认的是几乎所有用Python写的同学都表示用Python跑的时间起码是Java的好几倍。。。  &lt;/li&gt;
+  &lt;li&gt;Web Service。这部分主要是搭建响应请求的服务器（这里叫Front End，注意和HTML＋JS前端不是一个东西），逻辑不算很复杂，主要是从数据库读处理好的数据然后返回，但是也很challenging，因为好的Front End对throughput影响很大——数据库连接池、资源释放、数据的内存Cache，还有自己用Nginx做Load Balancer（因为AWS的ELB实在是不靠谱），工作量还是挺大的。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;然后谈谈测试。正如前面所说，测试是先搭好一个Web Service，然后把URL提交到测试网站上面，这个网站就会自动schedule一个测试任务，在给定的时间内不断产生特定类型的请求到这个URL，验证正确性和性能。至于Live Test也差不多，只不过测试周期长达数小时，不同类型的请求混合出现。不过这里面有一个设计不太合理的地方是throughput占的比重太高，以至于即使correctness只有80+也能靠刷吞吐量拿满分。除了这个原因和只能看不能点的“取消测试”按钮之外，整个测试系统还是让人比较满意的。&lt;/p&gt;
+
+&lt;p&gt;总结一下这个课带给我的几点收获和影响：&lt;br /&gt;
+1. 对云计算涉及到的方方面面有了基本了解&lt;br /&gt;
+2. 每周一次的小Project算是给我培养了一些运帷的素养&lt;br /&gt;
+3. 让我开始拥抱Java（好吧这真是出乎我的意料之外）和MapReduce&lt;br /&gt;
+4. 培养了目光检视找BUG的能力（跑一次时间久还烧钱所以试错调试成本太高）&lt;br /&gt;
+5. 培养了budget意识，一生受用（不这么说都对不起Majd那杯热茶）  &lt;/p&gt;
+
+&lt;p&gt;最后对从头到尾碾压Project的FDU小组表示致敬(知道这个名字真相的我泪流满面)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/fdu.png&quot; /&gt;&lt;/p&gt;
+
+</description>
+				<pubDate>Fri, 21 Nov 2014 00:00:00 -0500</pubDate>
+				<link>/2014/11/21/cloud-computing.html</link>
+				<guid isPermaLink="true">/2014/11/21/cloud-computing.html</guid>
+			</item>
+		
+			<item>
+				<title>我的阅读清单</title>
+				<description>&lt;p&gt;大四狗马上就要走了，对自己这四年看过的书作一个整理，推荐几本个人觉得比较精品的书，欢迎讨论。（持续维护更新中）&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;首先是畅销书&lt;/strong&gt;    &lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;《精益创业》（Lean startup）、《重来》（Rework）&lt;br /&gt;
+这两本书几乎成为了对创业感兴趣的人必读的圣经，只是没有那么大部头。《精益创业》主要谈的是方法论，是由Eric Ries总结出来的一套比较完整的系统体系，既适用于初创公司，也适用于大公司内部的创新部门；如果你有心，你甚至会发现这套理论可以应用在生活中的方方面面。换言之，你并不一定要成为一个创业者才能从这本书受益——它讨论的是更宽泛的范围。  &lt;/p&gt;
+
+    &lt;p&gt;《重来》这本书是&lt;a href=&quot;http://37signals.com/&quot;&gt;37signal&lt;/a&gt;出品——37出品，必属精品。它不是一套完整的理论体系按照逻辑逐步阐述，而是有点类似于心灵鸡汤式的人生和工作经验；尽管如此，它里面的内容并不虚，有可执行性。最重要的是，它提到了很多颠覆性的观点（至少我会觉得对我有点颠覆性），类似于会议有毒、准时下班而尽量避免加班（对啊，互联网公司你们天天加班是要闹哪样啊）等等。  &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《大数据时代》&lt;br /&gt;
+这个又是一个极其有名的畅销书，它表达的是对我们当前所处的所谓“大数据时代”的一种理解。毫无疑问，它举了相当多的例子；从这些例子中确实可以反映出我们当前时代的部分特性。作为一个学CS的童鞋，对于大数据可能更多关注技术层面的东西；而这本书提供了难得的洞察，对商业、科学、政治几个方面均有所涉及。它里面提到的商业模式虽然早就不是新闻，但是经过它的整理还是别有一番意思。    &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《意志力》&lt;br /&gt;
+绝对是一本好书。它从心理学和生理学的角度分析意志力是什么，为什么有一些人能控制自己、自我调节，完成既定的任务，而另一些人深受自制力不足的困扰，在生活的各个方面均遭受挫败。同时，它也给出了切实可行的建议，教导人们如何利用本书的内容去更好掌控自己的生活。强烈推荐。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《定位》&lt;br /&gt;
+经典之作。主要围绕商业活动中如何正确、有效地为公司、为产品进行定位，列举了大量的事例。而且，里面提到的思想不仅可以用于商业营销，同样也可以用于生活中的方方面面，具体就要靠自己领悟了。尽管年代有点久远，但是仍然非常值得一读。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《价格游戏：看麦琪如何巧用价格来刺激需求、增加利润》&lt;br /&gt;
+这本书主要讨论的是定价策略。书中借一位叫麦琪的创业者和她的巧克力茶壶的故事，分点阐述了在给商品进行定价设计的过程中的种种策略。看完就是让人有种跃跃欲试的感觉（虽然一介码农不知道到哪才有合适的机会吧）。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《乌合之众》&lt;br /&gt;
+这也是一部比较经典的作品。为什么民主反而会带来效率的降低、甚至引向错误的决定？作者的洞察给予了我们很深的启发。  &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《黑客与画家》&lt;br /&gt;
+对于学习计算机科学、并且对创业有兴趣的人来说，这是一本相当有价值的书。作者是硅谷创业教父Paul Graham。书中把黑客比喻成画家——Paul认为写程序是一种艺术性很强的工作（实际上我是非常同意这点的，所以我看到Bad code——不管是别人写的还是我自己写的——总是很不舒服）。然而，与画家相比，黑客创造出来的是真正能被人们使用的实实在在的、具有生产力的产品，从而具有更强大的改变世界的能力。推荐。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《激荡三十年》（上、下）
+这本书沿着改革开放三十年的时间脉络，针对中国经济在这三十年间具有代表性的事件进行了追踪、记录与分析，包含了很多作者通过采访或者调查获得的第一手资料，是讲述中国经济发展近代史著作中的佼佼者，而且绝对是值得重复阅读的好书，因为每次重新读都会有重新发现宝藏的感觉。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;文艺导向&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;《看见》&lt;br /&gt;
+相当不错的一本原版中文书，它成为畅销书排行榜第一名是有原因的。它打动我的地方在于，它真实，它简单；作者只阐述事情和自己的内心活动，这个当然带有相当多的主观色彩，但作者并没有褒扬或者批判什么，给人的感觉只是在安静、平和地阐述，只是在讲故事，仅此而已。  &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《百年孤独》，《一桩事先张扬的凶杀案》 &lt;br /&gt;
+很遗憾这是唯一看过的马尔克斯老先生的两本书。《百年孤独》是我最喜欢的小说。上来第一句话：   &lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;多年以后，面对行刑队，奥雷里亚诺·布恩迪亚上校将会回想起父亲带他去见识冰块的那个遥远的下午。
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;多迷幻的气场啊。这也是给我带来了最大震撼的一本——大二的时候是熬夜把这本书看完的，在夜深人静的时候，细细品味字里行间流露出来的诡秘的孤独、忧伤、悲凉，与幸福。看过之后容易犯抑郁，对自己内心强大程度没有自信的童鞋慎看。   &lt;/p&gt;
+
+    &lt;p&gt;《一桩事先张扬的凶杀案》也是老先生的代表作之一，不长，一个下午茶时间就能看到，也推荐，蛮有意思。   &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《苏菲的世界》、《西方哲学史》&lt;br /&gt;
+这两本书都是讲西方哲学史。前者采用了小说的方式，讲述一个存在于一位父亲写给女儿的书本中的女孩逃脱书本的束缚、来到现实世界的故事，这个过程中顺带阐述了西方哲学的理论，比较通俗易懂；后者是罗素编写的西方哲学史经典，属于大部头，比较高大上，我迄今还没全部读完（我买的中文版本翻译得还有点晦涩绕口，要是找不到合适的中文版本可以直接读英文版恩……）。推荐先找《苏菲的世界》来看，看完如果对西方哲学感兴趣的话再找后面这本。  &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《菊与刀》&lt;br /&gt;
+这本书是一个美国人类学家对日本社会、文化、人民的分析，写于第二次世界大战时。过去了这么多年，书中的一些内容可能已经过时，但其他更本质的东西似乎依然沉淀了下来、到现在依然没有改变。  &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《1984》，《动物农场》&lt;br /&gt;
+《1984》：一本批判政府恐怖统治的小说，经典中的经典，不用多说。这本书其实还是蛮虐心的。它十分符合鲁迅对悲剧的定义：悲剧就是把美好的东西毁灭给人看。人性的光辉被无情的蹂躏，而人性的软弱又体现得那么赤裸，最终以极有讽刺意味的形式收场。  &lt;/p&gt;
+
+    &lt;p&gt;《动物农场》是另外一部相关主题的小说，讲述的是猪统治农场的故事，也不妨一读。  &lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《挪威的森林》&lt;br /&gt;
+爱上村上春树就从这本书开始。孤独与爱，似乎是村上小说的两大主旋律。可能也只有村上能够把孤独感写出一种令人沉醉的美吧。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;技术&lt;/strong&gt;  &lt;/p&gt;
+
+&lt;p&gt;非常遗憾，作为一个学CS的，我除了经典教材之外基本没看过什么书——倒不是因为懒得看，而是因为1. 我看技术资料的原因一般是想学习新技术，但讲技术的书好书太少，内容跟不上时代，2. 很多资料直接在网上就可以搜得到（比如我学Android开发的时候，我直接去看官方的文档就行了，我何必还买一本专门讲Android开发的书呢？）当然从广泛来看，CS的还是有很多好书的，很多我都还没有来得及看，下面只说我看过的。  &lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://book.douban.com/subject/1102235/&quot;&gt;《机器学习》 &lt;/a&gt;&lt;br /&gt;
+ 作者Tom Mitchell。这本书可以作为Machine Learning的入门级读物，内容可能不是很新，但是从基础讲起，涵盖的内容也算比较广泛。可以在看了这本书之后再去看PRML这种大部头。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://book.douban.com/subject/2061116/&quot;&gt;《Pattern Recognition and Machine Learning》&lt;/a&gt;&lt;br /&gt;
+ 应该是从事Machine Learning必看的书了吧。原来在HULU实习的时候，导师&lt;a href=&quot;http://book.douban.com/search/%E9%A1%B9%E3%80%80%E4%BA%AE&quot;&gt;项亮&lt;/a&gt;说过，要打好机器学习的基础，就必须花个两年时间把这本书看透，每个算法都用C语言高效率地实现一遍，这样才算过了入门关。。。T_T。Anyway，这本书我还是没有完全读完，其实是连略读都还没读完，读完之后再做分享。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;《代码大全2》&lt;br /&gt;
+ 也是一部大部头。主要针对写Code方面给出了很多有价值的建议。十分推荐。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://www.diveintopython.net/&quot;&gt;《Dive into Python》&lt;/a&gt;（2014.7.20补充）
+ 这本书算是Python方面的经典之作，里面讲解了Python的基础知识乃至高级用法，并伴有大量实例代码，适合初学者入门，也适合Python用了一段时间的人回来看看找点启发。美中不足的是年代可能有点久远。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;其他&lt;/strong&gt;    &lt;/p&gt;
+
+&lt;p&gt;有很多书籍我在上面出来没有列举，原因可能是因为年代太过久远、已经基本忘记内容了；或者是我觉得虽是好书、但我还不能理解里面的精髓，就不出来献丑了。  &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;By the way，对于任何你觉得很好而没有在上面列举出来的，和人文、经济、心理、计算机科学相关的书籍，欢迎你推荐给我：）&lt;/strong&gt;  &lt;/p&gt;
+
+</description>
+				<pubDate>Sun, 29 Jun 2014 00:00:00 -0400</pubDate>
+				<link>/reading/2014/06/29/my-reading-list.html</link>
+				<guid isPermaLink="true">/reading/2014/06/29/my-reading-list.html</guid>
+			</item>
+		
+	</channel>
+</rss>
