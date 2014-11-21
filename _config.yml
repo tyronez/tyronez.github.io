@@ -14,7 +14,7 @@ defaults:
     scope:
       path: "" # empty string for all files
     values:
-      title: Firstprayer - Seriously Blogging
+      title: Firstprayer
 
 description: 一个关于计算机科学，编程，人生感悟的博客——关乎如何成为更好的人，如何把世界变得更好。
 author:
